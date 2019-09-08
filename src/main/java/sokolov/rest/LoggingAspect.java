@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 @Aspect
 public class LoggingAspect {
     private Logger logger = Logger.getLogger(LoggingAspect.class.getName());
-    // Здесь будут advices и pointcuts
 
     @Pointcut("@annotation(CustomLogging)")
     public void stringProcessingMethods() {
@@ -27,8 +26,9 @@ public class LoggingAspect {
 
     @AfterReturning(pointcut = "stringProcessingMethods()", returning = "result")
     public void logAfterReturning(JoinPoint joinPoint, Object result) {
-        logger.log(Level.INFO, "возвращенное значение: ");
-
+        if (result != null) {
+            logger.log(Level.INFO, "возвращенное значение: " + result.toString());
+        }
     }
 
     @Around("@annotation(CustomLogging)")

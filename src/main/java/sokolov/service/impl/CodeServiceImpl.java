@@ -31,6 +31,6 @@ public class CodeServiceImpl implements CodeService {
 
     @Override
     public Optional<Code> findByCode(int code){
-        return codeRepository.findOneByPrimCode(code);
+        return codeRepository.findOneByCode(code);
     }
 }

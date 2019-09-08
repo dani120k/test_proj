@@ -13,7 +13,7 @@ public class Code {
     private Long id;
 
     @Column(name = "code")
-    private int primCode;
+    private int code;
 
     @JsonIgnore
     @OneToMany(mappedBy = "fk_code", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -35,11 +35,11 @@ public class Code {
         this.id = id;
     }
 
-    public int getPrimCode() {
-        return primCode;
+    public int getCode() {
+        return code;
     }
 
-    public void setPrimCode(int primCode) {
-        this.primCode = primCode;
+    public void setCode(int code) {
+        this.code = code;
     }
 }

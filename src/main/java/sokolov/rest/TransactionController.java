@@ -26,13 +26,13 @@ public class TransactionController {
 
     @GetMapping("/")
     public void addTransaction(@RequestParam Transaction transaction){
-        Optional<Code> code = codeServiceImpl.findByCode(transaction.getCode().getPrimCode());
+        Optional<Code> code = codeServiceImpl.findByCode(transaction.getCode().getCode());
         if (code.isPresent()) {
             transaction.setCode(code.get());
             transactionService.add(transaction);
         } else {
             Code create_code = new Code();
-            create_code.setPrimCode(transaction.getCode().getPrimCode());
+            create_code.setCode(transaction.getCode().getCode());
             codeServiceImpl.add(create_code);
             transaction.setCode(create_code);
             transactionService.add(transaction);
@@ -44,7 +44,7 @@ public class TransactionController {
     public void test(){
         Transaction transaction = new Transaction();
         Code code = new Code();
-        code.setPrimCode(10);
+        code.setCode(10);
         codeServiceImpl.add(code);
         System.out.println("ff");
         transaction.setCode(code);
@@ -61,6 +61,7 @@ public class TransactionController {
         transactionService.add(tr);
     }
 
+    @CustomLogging
     @GetMapping("/getStats")
     public String getStats(@RequestParam int code) throws Exception{
         Optional<Code> codes = codeServiceImpl.findByCode(code);
@@ -85,7 +86,7 @@ public class TransactionController {
     @GetMapping("/addNew")
     public void addNew(){
         Code code = new Code();
-        code.setPrimCode(11);
+        code.setCode(11);
         codeServiceImpl.add(code);
         Transaction tr = new Transaction();
         tr.setContract_number(123123);
