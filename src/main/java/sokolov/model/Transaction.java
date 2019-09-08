@@ -1,5 +1,6 @@
 package sokolov.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import sokolov.Status;
 
 import javax.persistence.*;
@@ -23,15 +24,17 @@ public class Transaction {
     @Column(name = "contract_number")
     private int contract_number;
 
-    @Column(name = "code")
-    private int code;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_code")
+    @JsonIgnore
+    private Code fk_code;
 
-    public int getCode() {
-        return code;
+    public Code getCode() {
+        return fk_code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setCode(Code code) {
+        this.fk_code = code;
     }
 
     public Long getId() {

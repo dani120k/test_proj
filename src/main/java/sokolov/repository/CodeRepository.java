@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface CodeRepository extends JpaRepository<Code, Long> {
 
-    Optional<Code> findOneByCode(int code);
+    Optional<Code> findOneByPrimCode(int primCode);
 }

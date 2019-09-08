@@ -26,34 +26,35 @@ public class TransactionController {
 
     @GetMapping("/")
     public void addTransaction(@RequestParam Transaction transaction){
-        Optional<Code> code = codeServiceImpl.findByCode(transaction.getCode());
+        Optional<Code> code = codeServiceImpl.findByCode(transaction.getCode().getPrimCode());
         if (code.isPresent()) {
-            transaction.setCode(code.get().getCode());
+            transaction.setCode(code.get());
             transactionService.add(transaction);
         } else {
             Code create_code = new Code();
-            create_code.setCode(transaction.getCode());
+            create_code.setPrimCode(transaction.getCode().getPrimCode());
             codeServiceImpl.add(create_code);
-            transaction.setCode(create_code.getCode());
+            transaction.setCode(create_code);
             transactionService.add(transaction);
         }
     }
 
+    @CustomLogging
     @GetMapping("/test")
     public void test(){
         Transaction transaction = new Transaction();
         Code code = new Code();
-        code.setCode(10);
+        code.setPrimCode(10);
         codeServiceImpl.add(code);
         System.out.println("ff");
-        transaction.setCode(code.getCode());
+        transaction.setCode(code);
         transaction.setContract_number(123123);
         transaction.setStatus(Status.ACTIVE);
         transaction.setTime(new Date());
         transactionService.add(transaction);
         System.out.println("tt");
         Transaction tr = new Transaction();
-        tr.setCode(code.getCode());
+        tr.setCode(code);
         tr.setStatus(Status.FINAL);
         tr.setContract_number(124223);
         tr.setTime(new Date());
@@ -75,9 +76,22 @@ public class TransactionController {
     public String getAll(){
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.writeValueAsString(transactionService.findAll().get(0));
+            return objectMapper.writeValueAsString(transactionService.findAll());
         }catch (Exception ex){
             return "";
         }
+    }
+
+    @GetMapping("/addNew")
+    public void addNew(){
+        Code code = new Code();
+        code.setPrimCode(11);
+        codeServiceImpl.add(code);
+        Transaction tr = new Transaction();
+        tr.setContract_number(123123);
+        tr.setTime(new Date());
+        tr.setStatus(Status.ACTIVE);
+        tr.setCode(code);
+        transactionService.add(tr);
     }
 }

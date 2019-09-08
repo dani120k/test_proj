@@ -1,5 +1,7 @@
 package sokolov.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,9 +13,10 @@ public class Code {
     private Long id;
 
     @Column(name = "code")
-    private int code;
+    private int primCode;
 
-    @OneToMany(mappedBy = "code", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonIgnore
+    @OneToMany(mappedBy = "fk_code", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Transaction> transactionList;
 
     public List<Transaction> getTransactionList() {
@@ -32,11 +35,11 @@ public class Code {
         this.id = id;
     }
 
-    public int getCode() {
-        return code;
+    public int getPrimCode() {
+        return primCode;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setPrimCode(int primCode) {
+        this.primCode = primCode;
     }
 }
